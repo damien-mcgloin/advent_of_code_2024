@@ -29,8 +29,8 @@ public class day_one {
                 ++count;
             }
         }
-        //Collections.sort(list1);
-        //Collections.sort(list2);
+        Collections.sort(list1);
+        Collections.sort(list2);
         s.close();
     }
 
@@ -51,9 +51,11 @@ public class day_one {
 
     public static void calculateSimScore() {
         for (Integer i : list1) {
-            int value = Collections.frequency(list2, i);
-            if(value > 0) {
-                simScore += i * value;
+            //check how often value from current iteration in list1 appears in list 2
+            int frequency = Collections.frequency(list2, i);
+            //if it appears more than 0 times multiply it by the value and add to simScore variable
+            if(frequency > 0) {
+                simScore += i * frequency;
             }
         }
     }
