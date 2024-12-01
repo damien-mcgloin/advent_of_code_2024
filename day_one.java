@@ -14,31 +14,13 @@ public class day_one {
 
     public static int difference = 0;
 
-    public static void compareLists() {
-        Collections.sort(list1);
-        Collections.sort(list2);
-
-        for (int i = 0; i < list1.size(); i++) {
-            int value1 = list1.get(i);
-            int value2 = list2.get(i);
-            if (value1 - value2 > 0) {
-                difference += value1 - value2;
-            } else if (value2 - value1 > 0) {
-                difference += value2 - value1;
-            }
-        }
-    }
-
-    public static void main(String... args) throws FileNotFoundException {
-        buildList();
-        compareLists();
-        System.out.println(difference);
-    }
+    public static int simScore = 0;
 
     public static void buildList() throws FileNotFoundException {
         Scanner s = new Scanner(new File("src/advent_2024/dayOne_file.txt"));
-        int count = 1;
+        int count = 0;
         while (s.hasNext()){
+            // add the first value on each line to a list and then second value to different list
             if(count % 2 == 0) {
                 list1.add(Integer.valueOf(s.next()));
                 ++count;
@@ -47,6 +29,42 @@ public class day_one {
                 ++count;
             }
         }
+        //Collections.sort(list1);
+        //Collections.sort(list2);
         s.close();
+    }
+
+    public static void calculateDifference() {
+        // increment through both lists and compare each of the values
+        for (int i = 0; i < list1.size(); i++) {
+            int value1 = list1.get(i);
+            int value2 = list2.get(i);
+            // if value from list 1 minus value from list 2 is positive that's the difference
+            // add that value to the difference variable and keep going till end of list
+            if (value1 - value2 > 0) {
+                difference += value1 - value2;
+            } else if (value2 - value1 > 0) {
+                difference += value2 - value1;
+            }
+        }
+    }
+
+    public static void calculateSimScore() {
+        for (Integer i : list1) {
+            int value = Collections.frequency(list2, i);
+            if(value > 0) {
+                simScore += i * value;
+            }
+        }
+    }
+
+    public static void main(String... args) throws FileNotFoundException {
+        buildList();
+        calculateDifference();
+        calculateSimScore();
+        // print out the difference score - day one part one answer
+        System.out.println(difference);
+        // print out the similarity score - day one part two answer
+        System.out.println(simScore);
     }
 }
